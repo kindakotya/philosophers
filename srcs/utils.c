@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/21 22:42:57 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/22 21:53:56 by gmayweat         ###   ########.fr       */
+/*   Created: 2021/07/22 20:32:14 by gmayweat          #+#    #+#             */
+/*   Updated: 2021/07/22 22:26:22 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+void	*ft_calloc(int n, int size)
 {
-	t_args	args;
+	void	*mem;
 
-	if (argc < 5 || argc > 6)
-	{
-		printf("Error: %d arguments is not required\n", argc);
-		return (1);
-	}
-	if (parcer_init(argc - 1, ++argv, &args))
-	{
-		printf("Error: arguments is not valid\n");
-		return (1);
-	}
-	start_pasto(args);
-	return (0);
+	mem = malloc(n * size);
+	if (!mem)
+		return (0);
+	memset(mem, '\0', n * size);
+	return (mem);
 }
+
+u_int64_t	get_time(void)
+{
+	struct timeval	s_time;
+
+	if (gettimeofday(&s_time, NULL))
+		return (0);
+	return (s_time.tv_sec * 1000000ull + s_time.tv_usec);
+}
+
+// void	ft_usleep(u_int64_t t)
+// {
+// 	u_int64_t	current;
+
+	
+// }
