@@ -6,13 +6,13 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:54:14 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/22 22:47:39 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/23 22:18:21 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-u_int64_t	philosophers_atoi(const char *str)
+static u_int64_t	philosophers_atoi(const char *str)
 {
 	int			i;
 	u_int64_t	num;
@@ -28,63 +28,74 @@ u_int64_t	philosophers_atoi(const char *str)
 	return (num);
 }
 
-int	create_philo(t_args *args, u_int32_t n)
+static int	create_philo(t_table *table, u_int32_t n)
 {
-	if (n != args->nu_philo - 1)
+	if (n != table->nu_philo - 1)
 	{
-		if (pthread_mutex_init(args->philos[n].rigth, NULL))
+		table->philos[n].rigth = malloc(sizeof(pthread_mutex_t));
+		if (!table->philos[n].rigth)
+			return (1);
+		if (pthread_mutex_init(table->philos[n].rigth, NULL))
 			return (1);
 		if (n == 0)
 		{
-			if (pthread_mutex_init(args->philos[n].left, NULL))
+			table->philos[n].left = malloc(sizeof(pthread_mutex_t));
+			if (!table->philos[n].left)
+				return (1);
+			if (pthread_mutex_init(table->philos[n].left, NULL))
 				return (1);
 		}
 	}
 	else
-		args->philos[n].rigth = args->philos[0].left;
+		table->philos[n].rigth = table->philos[0].left;
 	if (n != 0)
-		args->philos[n].left = args->philos[n - 1].rigth;
-	args->philos[n].id = n + 1;
-	args->philos[n].table = args;
+		table->philos[n].left = table->philos[n - 1].rigth;
+	table->philos[n].id = n + 1;
+	table->philos[n].table = table;
 	return (0);
 }
 
-int	philos_alloc(t_args *args)
+static int	philos_alloc(t_table *table)
 {
 	u_int32_t	i;
 
 	i = 0;
-	args->philos = ft_calloc(args->nu_philo + 1, sizeof(t_phil));
-	if (!args->philos)
+	table->philos = ft_calloc(table->nu_philo + 1, sizeof(t_phil));
+	if (!table->philos)
 		return (1);
-	args->pthreads = ft_calloc(args->nu_philo, sizeof(pthread_t));
-	if (!args->pthreads)
+	table->pthreads = ft_calloc(table->nu_philo, sizeof(pthread_t));
+	if (!table->pthreads)
 		return (1);
-	while (i < args->nu_philo)
+	while (i < table->nu_philo)
 	{
-		if (create_philo(args, i))
+		if (create_philo(table, i))
 			return (1);
 		++i;
 	}
 	return (0);
 }
 
-int	parcer_init(int ac, char **av, t_args *args)
+int	parcer_init(int ac, char **av, t_table *table)
 {
-	memset(args, 0, sizeof(t_args));
-	args->nu_philo = philosophers_atoi(av[0]);
-	args->time_die = philosophers_atoi(av[1]) * 1000;
-	args->time_eat = philosophers_atoi(av[2]) * 1000;
-	args->time_sleep = philosophers_atoi(av[3]) * 1000;
+	memset(table, 0, sizeof(t_table));
+	table->nu_philo = philosophers_atoi(av[0]);
+	table->time_die = philosophers_atoi(av[1]) * 1000;
+	table->time_eat = philosophers_atoi(av[2]) * 1000;
+	table->time_sleep = philosophers_atoi(av[3]) * 1000;
 	if (ac == 5)
-		args->nu_times_eat = philosophers_atoi(av[4]);
-	if (args->nu_philo == 0 || args->time_die == 0 || args->time_eat == 0
-		|| args->time_sleep == 0 || (args->nu_times_eat == 0 && ac == 5))
+		table->nu_times_eat = philosophers_atoi(av[4]);
+	if (table->nu_philo == 0 || table->time_die == 0 || table->time_eat == 0
+		|| table->time_sleep == 0 || (table->nu_times_eat == 0 && ac == 5))
 		return (1);
-	if (philos_alloc(args))
+	if (philos_alloc(table))
 		return (1);
-	args->start_time = get_time();
-	if (!args->start_time)
+	table->start_time = get_time();
+	if (!table->start_time)
+		return (1);
+	table->orator = ft_calloc(1, sizeof(pthread_mutex_t));
+	if (!table->orator)
+		return (1);
+	if (pthread_mutex_init(table->orator, NULL))
 		return (1);
 	return (0);
 }

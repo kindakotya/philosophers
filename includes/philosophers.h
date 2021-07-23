@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:46:12 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/22 23:16:00 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/23 23:01:13 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,27 @@ typedef struct s_phil
 	pthread_mutex_t	*rigth;
 }				t_phil;
 
-typedef struct s_args
+typedef struct s_table
 {
-	u_int32_t	nu_philo;
-	u_int64_t	time_die;
-	u_int64_t	time_eat;
-	u_int64_t	time_sleep;
-	u_int32_t	nu_times_eat;
-	u_int64_t	start_time;
-	pthread_t	*pthreads;
-	t_phil		*philos;
-}				t_args;
+	u_int32_t		nu_philo;
+	u_int64_t		time_die;
+	u_int64_t		time_eat;
+	u_int64_t		time_sleep;
+	u_int32_t		nu_times_eat;
+	u_int64_t		phils_eaten;
+	u_int64_t		start_time;
+	int				is_dead;
+	pthread_t		*pthreads;
+	t_phil			*philos;
+	pthread_mutex_t	*orator;
+}				t_table;
 
-int	parcer_init(int ac, char **av, t_args *args);
+int	parcer_init(int ac, char **av, t_table *args);
 void	*ft_calloc(int n, int size);
 u_int64_t	get_time(void);
+int	doctor(t_table *table);
+int	start_pasto(t_table *table);
+int	eat(t_phil *phil, t_table *table, u_int64_t time);
+void	philosophers_free(t_table *table);
+void	orator_says(char *str, t_phil *phil, t_table *table, u_int64_t time);
 #endif

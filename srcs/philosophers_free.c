@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philosophers_free.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/21 22:42:57 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/23 22:19:35 by gmayweat         ###   ########.fr       */
+/*   Created: 2021/07/23 21:57:57 by gmayweat          #+#    #+#             */
+/*   Updated: 2021/07/23 22:18:54 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+static void	free_philos(t_phil *philos)
 {
-	t_table	table;
-	t_table nan;
+	int	i;
 
-	if (argc < 5 || argc > 6)
+	i = 0;
+	while ((philos + i)->table)
 	{
-		printf("Error: %d arguments is not required\n", argc);
-		return (1);
+		if (philos[i].left)
+			pthread_mutex_destroy(philos[i].left);
+		free(philos[i].left);
+		++i;
 	}
-	if (parcer_init(argc - 1, ++argv, &table))
+	free(philos);
+}
+
+void	philosophers_free(t_table *table)
+{
+	if (table->philos)
+		free_philos(table->philos);
+	if (table->orator)
 	{
-		printf("Error: arguments is not valid\n");
-		return (1);
+		pthread_mutex_destroy(table->orator);
+		free(table->orator);
 	}
-	start_pasto(&table);
-	philosophers_free(&table);
-	nan.is_dead = 1;
-	table = nan;
-	// getchar();
-	return (0);
+	if (table->pthreads)
+		free(table->pthreads);
 }
