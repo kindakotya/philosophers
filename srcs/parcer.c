@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:54:14 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/23 22:18:21 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/24 18:12:16 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ int	parcer_init(int ac, char **av, t_table *table)
 {
 	memset(table, 0, sizeof(t_table));
 	table->nu_philo = philosophers_atoi(av[0]);
-	table->time_die = philosophers_atoi(av[1]) * 1000;
-	table->time_eat = philosophers_atoi(av[2]) * 1000;
-	table->time_sleep = philosophers_atoi(av[3]) * 1000;
+	table->time_die = philosophers_atoi(av[1]);
+	table->time_eat = philosophers_atoi(av[2]);
+	table->time_sleep = philosophers_atoi(av[3]);
 	if (ac == 5)
 		table->nu_times_eat = philosophers_atoi(av[4]);
 	if (table->nu_philo == 0 || table->time_die == 0 || table->time_eat == 0

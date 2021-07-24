@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:42:57 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/23 22:19:35 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/24 21:57:58 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv)
 {
 	t_table	table;
-	t_table nan;
 
 	if (argc < 5 || argc > 6)
 	{
@@ -29,8 +28,5 @@ int	main(int argc, char **argv)
 	}
 	start_pasto(&table);
 	philosophers_free(&table);
-	nan.is_dead = 1;
-	table = nan;
-	// getchar();
 	return (0);
 }

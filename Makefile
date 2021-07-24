@@ -6,7 +6,7 @@
 #    By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/25 22:40:29 by gmayweat          #+#    #+#              #
-#    Updated: 2021/07/23 22:11:06 by gmayweat         ###   ########.fr        #
+#    Updated: 2021/07/24 21:17:47 by gmayweat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS =					parcer.c\
 						pasto.c\
 						eat.c\
 						philosophers_free.c\
+						to_stdout.c\
 						main.c
 
 HEAD =					philosophers.h
