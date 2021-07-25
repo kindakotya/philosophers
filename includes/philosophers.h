@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:46:12 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/24 21:58:38 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/24 23:05:25 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int			eat(t_phil *phil, t_table *table);
 void		philosophers_free(t_table *table);
 void		ft_usleep(u_int64_t t);
 void		orator_says(char *str, t_phil *phil, t_table *table);
+int			drop_forks(t_phil *phil);
 void		*set_death(t_phil *phil, t_table *table, u_int64_t rest);
 #endif

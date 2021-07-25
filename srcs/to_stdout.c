@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:15:42 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/24 21:30:43 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/24 22:51:35 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	orator_says(char *str, t_phil *phil, t_table *table)
 
 void	*set_death(t_phil *phil, t_table *table, u_int64_t rest)
 {
+	if (rest != 0)
+		ft_usleep(rest);
 	pthread_mutex_lock(table->orator);
 	if (!table->is_dead)
 	{
 		phil->is_dead = 1;
 		table->is_dead = phil->id;
-		if (rest != 0)
-			ft_usleep(rest);
 		printf("\x1B[31m[%llu] %u is dead\x1B[31m\n",
 			get_time() - table->start_time, phil->id);
 	}

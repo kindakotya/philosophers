@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:54:14 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/24 18:12:16 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/24 23:08:23 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ int	parcer_init(int ac, char **av, t_table *table)
 	if (philos_alloc(table))
 		return (1);
 	table->start_time = get_time();
-	if (!table->start_time)
-		return (1);
 	table->orator = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!table->orator)
 		return (1);

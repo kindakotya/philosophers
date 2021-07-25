@@ -6,13 +6,13 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 19:13:06 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/24 21:51:33 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/25 02:59:44 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	take_forks(t_phil *phil, t_table *table)
+static int	take_forks(t_phil *phil, t_table *table)
 {
 	if (phil->id == table->nu_philo)
 	{
@@ -46,7 +46,6 @@ int	eat(t_phil *phil, t_table *table)
 		return (set_death(phil, table, table->time_die - (get_time()
 					- phil->last_eating)) || drop_forks(phil));
 	ft_usleep(table->time_eat);
-	drop_forks(phil);
 	phil->last_eating = get_time();
 	if (table->nu_times_eat)
 	{

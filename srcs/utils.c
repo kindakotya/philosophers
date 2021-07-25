@@ -6,7 +6,7 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 20:32:14 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/24 21:16:15 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/25 03:00:41 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,16 @@ void	ft_usleep(u_int64_t t)
 	finish = current + t;
 	while (get_time() < finish)
 		usleep(50);
+}
+
+int	doctor(t_table *table)
+{
+	pthread_mutex_lock(table->orator);
+	if (table->is_dead)
+	{
+		pthread_mutex_unlock(table->orator);
+		return (1);
+	}
+	pthread_mutex_unlock(table->orator);
+	return (0);
 }

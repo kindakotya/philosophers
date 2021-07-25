@@ -6,32 +6,22 @@
 /*   By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 21:54:13 by gmayweat          #+#    #+#             */
-/*   Updated: 2021/07/24 21:57:41 by gmayweat         ###   ########.fr       */
+/*   Updated: 2021/07/25 03:01:10 by gmayweat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	doctor(t_table *table)
-{
-	pthread_mutex_lock(table->orator);
-	if (table->is_dead)
-	{
-		pthread_mutex_unlock(table->orator);
-		return (1);
-	}
-	pthread_mutex_unlock(table->orator);
-	return (0);
-}
-
-int	aftereating(t_table *table, t_phil *phil)
+static int	aftereating(t_table *table, t_phil *phil)
 {
 	if (table->phils_eaten == table->nu_philo)
 	{
+		drop_forks(phil);
 		orator_says(0, 0, table);
 		return (1);
 	}
 	orator_says("went sleep", phil, table);
+	drop_forks(phil);
 	if (get_time() - phil->last_eating + table->time_sleep
 		> table->time_die)
 	{
@@ -43,7 +33,7 @@ int	aftereating(t_table *table, t_phil *phil)
 	return (0);
 }
 
-void	*sim_pasto(void *ph)
+static void	*sim_pasto(void *ph)
 {
 	t_table		*table;
 	t_phil		*phil;
@@ -67,7 +57,6 @@ void	*sim_pasto(void *ph)
 		else
 			return (0);
 	}
-	return (0);
 }
 
 int	start_pasto(t_table *table)
@@ -84,6 +73,7 @@ int	start_pasto(t_table *table)
 		++i;
 	}
 	i = 0;
+	table->start_time = get_time();
 	while (i < table->nu_philo)
 	{
 		if (pthread_join(*(table->pthreads + i), NULL))
